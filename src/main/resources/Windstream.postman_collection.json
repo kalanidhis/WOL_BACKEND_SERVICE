@@ -76,6 +76,76 @@
 				"description": ""
 			},
 			"response": []
+		},
+		{
+			"name": "getAllTroubleTickets",
+			"request": {
+				"url": "http://localhost:8080/tickets/all",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getTroubleTicketsNyNameAndDesc",
+			"request": {
+				"url": "http://localhost:8080/tickets/search?name=Issue With Bill&desc=I have issues viewing my bills Online",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getTicketById",
+			"request": {
+				"url": "http://localhost:8080/tickets/3",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "updateTicket",
+			"request": {
+				"url": "http://localhost:8080/tickets/update?id=2&resolved=true",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "createTicket",
+			"request": {
+				"url": "http://localhost:8080/tickets/create?name=Test&desc=I have issues viewing my bills Online&resolved=false",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
 		}
 	]
 }

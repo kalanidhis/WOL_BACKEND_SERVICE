@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 
 /**
@@ -24,7 +25,7 @@ public class TroubleTickets
 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator="trouble_ticket_gen")
-	private Integer id;
+	private Long id;
 
 	@NotEmpty
 	@Column(name = "trouble_ticket_name")
@@ -39,13 +40,13 @@ public class TroubleTickets
 	private Boolean resolved;
 
 
-	public Integer getId()
+	public Long getId()
 	{
 		return id;
 	}
 
 
-	public void setId(Integer id)
+	public void setId(Long id)
 	{
 		this.id = id;
 	}
@@ -120,6 +121,19 @@ public class TroubleTickets
 	public String toString()
 	{
 		return "TroubleTickets{" + "id=" + id + ", name='" + name + '\'' + ", desc='" + desc + '\'' + ", resolved=" + resolved + '}';
+	}
+
+
+	public TroubleTickets(String name, String desc, Boolean resolved)
+	{
+		this.name = name;
+		this.desc = desc;
+		this.resolved = resolved;
+	}
+
+
+	public TroubleTickets()
+	{
 	}
 }
 

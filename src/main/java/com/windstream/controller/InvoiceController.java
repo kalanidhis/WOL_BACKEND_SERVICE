@@ -26,7 +26,7 @@ public class InvoiceController
 
 	@Autowired
 	private InvoiceRepo invoiceRepo;
-	static final Logger logger = LogManager.getLogger(InvoiceController.class.getName());
+	private static final Logger logger = LogManager.getLogger(InvoiceController.class.getName());
 
 
 	/**
