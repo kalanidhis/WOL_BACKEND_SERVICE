@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="WolBackend:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="wol-backend-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="WolBackend:war exploded" />
+    </root>
+  </artifact>
+</component>
