@@ -1,0 +1,81 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Windstream",
+		"_postman_id": "ab50c336-0a26-d505-772c-6007360211cb",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getAllInvoices",
+			"request": {
+				"url": "http://localhost:8080/invoice/all",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "CreateInvoice",
+			"request": {
+				"url": "http://localhost:8080/invoice/create?month=APR&year=2016&amount=100&paidAmount=0",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "updateInvoicePayment",
+			"request": {
+				"url": "http://localhost:8080/invoice/update?id=150&paidAmount=22",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getInvoiceById",
+			"request": {
+				"url": "http://localhost:8080/invoice/150",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getInvoiceByMonthAndYear",
+			"request": {
+				"url": "http://localhost:8080/invoice/search?month=APR&year=2016",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
