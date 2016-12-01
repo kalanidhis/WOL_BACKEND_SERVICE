@@ -6,7 +6,7 @@ Run the mySQLDump.sql first to create schema, tables and insert some sample data
 
 DB username and Password are in application.properties
 
-Postman Importable Test cases are in resources folder.
+Postman Importable Test cases are in resources folder. (https://www.getpostman.com/)
 
 # Steps to Deploy the project
 
