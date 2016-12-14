@@ -40,6 +40,8 @@ public class Invoice
 	@Column(name = "paid_amount")
 	private Double paidAmount;
 
+	@Column(name = "due_date")
+	private String dueDate;
 
 	public Long getId()
 	{
@@ -99,12 +101,26 @@ public class Invoice
 	{
 		this.paidAmount = paidAmount;
 	}
+	
+	
+	public String getDueDate()
+	{
+		return dueDate;
+	}
+
+
+	public void setDueDate(String dueDate)
+	{
+		this.dueDate = dueDate;
+	}
+
+
 
 
 	@Override
 	public String toString()
 	{
-		return "Invoice{" + "id=" + id + ", month='" + month + '\'' + ", year='" + year + '\'' + ", amount=" + amount + ", paidAmount=" + paidAmount + '}';
+		return "Invoice{" + "id=" + id + ", month='" + month + '\'' + ", year='" + year + '\'' + ", amount=" + amount + ", paidAmount=" + paidAmount +", dueDate=" + dueDate + '}';
 	}
 
 
@@ -134,12 +150,13 @@ public class Invoice
 	}
 
 
-	public Invoice(String month, Integer year, double amount, double paidAmount)
+	public Invoice(String month, Integer year, double amount, double paidAmount,String dueDate)
 	{
 		this.month = month;
 		this.year = year;
 		this.amount = amount;
 		this.paidAmount = paidAmount;
+		this.dueDate = dueDate;
 	}
 
 

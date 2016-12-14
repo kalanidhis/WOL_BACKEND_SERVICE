@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -41,8 +44,8 @@ public class InvoiceController
 	 */
 	@RequestMapping("/create")
 	@ResponseBody
-	public Invoice createInvoice(String month, int year, double amount, double paidAmount) {
-		Invoice invoice = new Invoice(month, year, amount, paidAmount);
+	public Invoice createInvoice(String month, int year, double amount, double paidAmount,String dueDate) {
+		Invoice invoice = new Invoice(month, year, amount, paidAmount,dueDate);
 		try {
 			invoiceRepo.save(invoice);
 		} catch (Exception e) {
@@ -77,6 +80,39 @@ public class InvoiceController
 	public List<Invoice> getAllInvoices() {
 		return invoiceRepo.findAll();
 	}
+	
+	@RequestMapping("/last2Month")
+	public List<Invoice> getLastTwoMonthInvoices() {
+	
+	LocalDate now = LocalDate.now(); 
+	LocalDate earlier = now.minusMonths(1); 
+	
+	int currentMonth  = now.getMonthValue();
+	int currentYear   = now.getYear();
+	
+	int previousMonth  = earlier.getMonthValue();
+	int previousYear  = earlier.getYear();
+	
+	String currentMonthSName = getMonthNameShort(currentMonth);
+	String previousMonthSName = getMonthNameShort(previousMonth);
+
+	return invoiceRepo.findInvoiceByTwoMonthAndYear(currentMonthSName,previousMonthSName, currentYear+"",previousYear+"");
+	}
+	
+	@RequestMapping("/currectinvoice")
+	public List<Invoice> getCurrentMonthInvoices() {
+	
+	LocalDate now = LocalDate.now(); 
+	
+	int currentMonth  = now.getMonthValue();
+	int currentYear   = now.getYear();
+
+	
+	String currentMonthSName = getMonthNameShort(currentMonth);
+	
+	return invoiceRepo.findInvoiceByMonthAndYear(currentMonthSName, currentYear);
+	}
+	
 
 	@RequestMapping("/{id}")
 	@ResponseBody
@@ -101,4 +137,13 @@ public class InvoiceController
 		}
 		return invoice;
 	}
+	
+	
+	  public static String getMonthNameShort(int month)
+	    {
+	        Calendar cal = Calendar.getInstance();
+	        // Calendar numbers months from 0
+	        cal.set(Calendar.MONTH, month - 1);
+	        return cal.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault());
+	    }
 }

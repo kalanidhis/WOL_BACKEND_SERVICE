@@ -1,16 +1,13 @@
 package com.windstream.controller;
 
 
-import com.windstream.model.TroubleTickets;
-import com.windstream.repository.TroubleTicketRepo;
+import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Optional;
+import com.windstream.model.TroubleTickets;
+import com.windstream.repository.TroubleTicketRepo;
 
 
 /**
@@ -92,12 +89,8 @@ public class TroubleTicketController
 	}
 	
 	@RequestMapping("/lasttwo")
-	public Page<TroubleTickets> getLast2Tickets() {
-		
-		PageRequest pageRequest =
-			    new PageRequest(0, 2, Sort.Direction.DESC, "id");
-		
-		return ticketRepo.findAll(pageRequest);
+	public List<TroubleTickets> getLast2Tickets() {
+		return ticketRepo.findLastTwoTicket();
 	}
 
 	@RequestMapping("/all")

@@ -16,6 +16,6 @@ public interface InvoiceRepo extends JpaRepository<Invoice, Long> {
 	@Query("SELECT inv FROM Invoice inv where inv.month= ?1 AND inv.year= ?2")
 	List<Invoice> findInvoiceByMonthAndYear(String month, int year);
 	
-	@Query("SELECT inv FROM Invoice inv where inv.month IN(?1) AND inv.year IN (?2)")
-	List<Invoice> findByMonthAndYear(String month, int year);
+	@Query(value="SELECT * FROM invoice inv where inv.month IN (?1,?2) AND inv.year IN (?3,?4)",nativeQuery=true)
+	List<Invoice> findInvoiceByTwoMonthAndYear(String month1,String month2, String year,String year2);
 }
