@@ -4,12 +4,16 @@ package com.windstream.controller;
 import com.windstream.model.Invoice;
 import com.windstream.repository.InvoiceRepo;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,8 +48,8 @@ public class InvoiceController
 	 */
 	@RequestMapping("/create")
 	@ResponseBody
-	public Invoice createInvoice(String month, int year, double amount, double paidAmount,String dueDate) {
-		Invoice invoice = new Invoice(month, year, amount, paidAmount,dueDate);
+	public Invoice createInvoice(String month, int year, double amount, double paidAmount,String dueDate,double previousAmount,double adjustment,double currentCharge,String paidDate,double pastDue) {
+		Invoice invoice = new Invoice(month, year, amount, paidAmount,dueDate,previousAmount,adjustment,currentCharge,paidDate,pastDue);
 		try {
 			invoiceRepo.save(invoice);
 		} catch (Exception e) {
@@ -83,7 +87,7 @@ public class InvoiceController
 	
 	@RequestMapping("/last2Month")
 	public List<Invoice> getLastTwoMonthInvoices() {
-	
+		Invoice invoice = null;
 	LocalDate now = LocalDate.now(); 
 	LocalDate earlier = now.minusMonths(1); 
 	
@@ -130,11 +134,39 @@ public class InvoiceController
 	@ResponseBody
 	public Invoice getInvoiceByMonthAndYear(@RequestParam("month") String month, @RequestParam("year") int year) {
 		Invoice invoice = null;
+		System.out.println("month--------------"+month+"year-----------"+year);
 		try {
 			invoice = invoiceRepo.findInvoiceByMonthAndYear(month,year).get(0);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
+		return invoice;
+	}
+
+	
+	@RequestMapping(value="/billingdetails" , method = RequestMethod.POST)
+	@ResponseBody
+	public List<Invoice> getmonthyear(@RequestBody String jsonData){
+		List<Invoice> invoice = null;
+		System.out.println("jsonData--------------"+jsonData);
+		try {
+			JSONObject obj = new JSONObject(jsonData);
+			String monthId = obj.getString("monthId");
+			String year = obj.getString("year");
+			String monthName="";
+			int yearValue =0;
+			if(StringUtils.isNumeric(monthId) && StringUtils.isNumeric(year)){
+				monthName = this.getMonthNameShort(Integer.parseInt(monthId));
+				yearValue = Integer.parseInt(year);
+			}
+			System.out.println("monthId: " + monthName);
+			System.out.println("year: " + yearValue);
+			
+			invoice = invoiceRepo.findInvoiceByMonthAndYear(monthName,yearValue);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+		}
+		System.out.println(invoice);
 		return invoice;
 	}
 	
