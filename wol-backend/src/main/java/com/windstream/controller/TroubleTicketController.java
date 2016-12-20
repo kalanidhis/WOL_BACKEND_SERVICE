@@ -38,11 +38,11 @@ public class TroubleTicketController
 	@ResponseBody
 	public TroubleTickets createTicket(@RequestBody String ticketjsonData)
 	{
-		System.out.println("GET JSON -createTicket-- >"+ticketjsonData);
+		logger.debug("createTicket-- >"+ticketjsonData);
 		
 		JSONObject obj = new JSONObject(ticketjsonData);
-		System.out.println("Category: " + obj.getString("category"));
-		System.out.println("Description: " + obj.getString("description"));
+		logger.debug("Category: " + obj.getString("category"));
+		logger.debug("Description: " + obj.getString("description"));
 		
 		
 		TroubleTickets ticket = new TroubleTickets(obj.getString("category"),obj.getString("description"),false);
@@ -61,7 +61,7 @@ public class TroubleTicketController
 	public TroubleTickets createTicket(String name, String desc, boolean resolved)
 	{
 		
-		System.out.println("NAME JSON --- >"+name);
+		logger.debug("NAME JSON --- >"+name);
 		TroubleTickets ticket = new TroubleTickets(name,desc,resolved);
 		try{
 			ticketRepo.save(ticket);

@@ -66,14 +66,39 @@ public class InvoiceController
 	 * @param paidAmount
 	 * @return
 	 */
-	@RequestMapping("/update")
+	@RequestMapping(value="/update" , method = RequestMethod.POST)
 	@ResponseBody
-	public Invoice updateInvoice(long id, double paidAmount) {
+	public Invoice updateInvoice(@RequestBody String jsonData) {
 		Invoice invoice = null;
+		long id =0;
+		double paidAmount=0;
 		try {
-			invoice = invoiceRepo.findOne(id);
-			invoice.setPaidAmount(paidAmount);
-			invoiceRepo.save(invoice);
+		
+			JSONObject obj = new JSONObject(jsonData);
+			String billId = obj.getString("billId");  if(billId==null)billId="";
+			String paidAmountStr = obj.getString("paidAmount"); if(paidAmountStr==null || paidAmountStr.length()==0 || paidAmountStr.isEmpty())paidAmountStr="0";
+			
+			
+			logger.debug("billId--------------"+billId+"paidAmountStr-----------"+paidAmountStr);
+			
+			paidAmount = Double.parseDouble(paidAmountStr);
+			if(StringUtils.isNumeric(billId)){	
+				id = Long.parseLong(billId);
+				invoice = invoiceRepo.findOne(id);
+				
+				LocalDate now = LocalDate.now(); 
+				
+				int currentMonth  = now.getMonthValue();
+				int currentYear   = now.getYear();
+
+				
+				String currentMonthSName = getMonthNameShort(currentMonth);
+				String payDate = now.getDayOfMonth()+"-"+currentMonthSName+"-"+currentYear;
+				
+				invoice.setPaidAmount(paidAmount);
+				invoice.setPaidDate(payDate);
+				invoiceRepo.saveAndFlush(invoice);
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -134,7 +159,7 @@ public class InvoiceController
 	@ResponseBody
 	public Invoice getInvoiceByMonthAndYear(@RequestParam("month") String month, @RequestParam("year") int year) {
 		Invoice invoice = null;
-		System.out.println("month--------------"+month+"year-----------"+year);
+		logger.debug("month--------------"+month+"year-----------"+year);
 		try {
 			invoice = invoiceRepo.findInvoiceByMonthAndYear(month,year).get(0);
 		} catch (Exception e) {
@@ -148,7 +173,7 @@ public class InvoiceController
 	@ResponseBody
 	public List<Invoice> getmonthyear(@RequestBody String jsonData){
 		List<Invoice> invoice = null;
-		System.out.println("jsonData--------------"+jsonData);
+		logger.debug("jsonData--------------"+jsonData);
 		try {
 			JSONObject obj = new JSONObject(jsonData);
 			String monthId = obj.getString("monthId");
@@ -159,14 +184,14 @@ public class InvoiceController
 				monthName = this.getMonthNameShort(Integer.parseInt(monthId));
 				yearValue = Integer.parseInt(year);
 			}
-			System.out.println("monthId: " + monthName);
-			System.out.println("year: " + yearValue);
+			logger.debug("monthId: " + monthName);
+			logger.debug("year: " + yearValue);
 			
 			invoice = invoiceRepo.findInvoiceByMonthAndYear(monthName,yearValue);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		System.out.println(invoice);
+		logger.debug(invoice);
 		return invoice;
 	}
 	
