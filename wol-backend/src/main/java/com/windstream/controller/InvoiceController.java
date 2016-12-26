@@ -142,6 +142,15 @@ public class InvoiceController
 	return invoiceRepo.findInvoiceByMonthAndYear(currentMonthSName, currentYear);
 	}
 	
+	
+	@RequestMapping("/billingDetails")
+	public List<Invoice> getBillAmountbyYear() {
+	LocalDate now = LocalDate.now(); 	
+	int currentYear   = now.getYear();
+	
+	return invoiceRepo.findBillingAmountByYear(currentYear);
+	}
+	
 
 	@RequestMapping("/{id}")
 	@ResponseBody
