@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -184,13 +186,21 @@ public class InvoiceController
 		List<Invoice> invoice = null;
 		logger.debug("jsonData--------------"+jsonData);
 		try {
-			JSONObject obj = new JSONObject(jsonData);
-			String monthId = obj.getString("monthId");
+    		JSONObject obj = new JSONObject(jsonData);
+			//String monthId = obj.getString("monthId");
+			String monthNameStr = obj.getString("monthName");
+			
+			Date date = new SimpleDateFormat("MMMM").parse(monthNameStr);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			logger.debug(cal.get(Calendar.MONTH));
+			int monthIdval = cal.get(Calendar.MONTH)+1;
+			
 			String year = obj.getString("year");
 			String monthName="";
 			int yearValue =0;
-			if(StringUtils.isNumeric(monthId) && StringUtils.isNumeric(year)){
-				monthName = this.getMonthNameShort(Integer.parseInt(monthId));
+			if(StringUtils.isNumeric(year)){
+				monthName = this.getMonthNameShort(monthIdval);
 				yearValue = Integer.parseInt(year);
 			}
 			logger.debug("monthId: " + monthName);
