@@ -145,7 +145,7 @@ public class InvoiceController
 	}
 	
 	
-	@RequestMapping("/billingDetails")
+	@RequestMapping("/billing")
 	public List<Invoice> getBillAmountbyYear() {
 	LocalDate now = LocalDate.now(); 	
 	int currentYear   = now.getYear();
