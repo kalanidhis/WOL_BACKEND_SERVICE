@@ -147,10 +147,10 @@ public class InvoiceController
 	
 	@RequestMapping("/billing")
 	public List<Invoice> getBillAmountbyYear() {
-	LocalDate now = LocalDate.now(); 	
-	int currentYear   = now.getYear();
+	//LocalDate now = LocalDate.now().minusYears(1); 	
+	//int currentYear   = now.getYear();
 	
-	return invoiceRepo.findBillingAmountByYear(currentYear);
+	return invoiceRepo.findLast12monthBilling();
 	}
 	
 
